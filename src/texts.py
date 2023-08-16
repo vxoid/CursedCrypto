@@ -11,3 +11,9 @@ cancel_button_content = "Cancel ✖️"
 back_button_content = "Back 🔙"
 previous_button_content = "Previous ⏮️"
 next_button_content = "Next ⏭️"
+
+def create_entry_content(entry) -> str:
+  try:
+    return entry.summary
+  except AttributeError:
+    return ""

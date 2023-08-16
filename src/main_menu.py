@@ -27,7 +27,7 @@ def add_feed(call: types.CallbackQuery):
 
     feed = Feed.new(feed_url)
     
-    if not feed.is_valid():
+    if feed is None:
       edit_message(msg, invalid_add_feed_message.format(feed_url), reply_markup=cancel_markup)
       bot.register_next_step_handler(msg, callback=callback)
       return
