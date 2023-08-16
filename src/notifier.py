@@ -51,10 +51,13 @@ def notify():
 
           message = post.create_message()
           
-          if photo_url is not None:
-            bot.send_photo(channel, photo_url, message, parse_mode="Markdown")
-          else:
-            bot.send_message(channel, message, parse_mode="Markdown")
-
+          try:
+            if photo_url is not None:
+              bot.send_photo(channel, photo_url, message, parse_mode="Markdown")
+            else:
+              bot.send_message(channel, message, parse_mode="Markdown")
+          except Exception as e:
+            print(f"Can't send message due to: {e}")
+          
     time.sleep(INTERVAL)
 
