@@ -94,7 +94,7 @@ class Post(Base):
   def create_message(self) -> str:
     message = f"{self.title}\n\n"
     if str(self.content):
-      message += f"{self.content}\n\n"
+      message += f"{self.content}\n"
     message += f"P.S. [Original post]({self.link})"
 
     return message

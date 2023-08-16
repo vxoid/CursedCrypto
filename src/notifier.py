@@ -49,7 +49,7 @@ def notify():
           except AttributeError:
             pass
 
-          message = remove_html_tags(post.create_message())
+          message = post.create_message()
           
           if photo_url is not None:
             bot.send_photo(channel, photo_url, message, parse_mode="Markdown")
@@ -58,5 +58,3 @@ def notify():
 
     time.sleep(INTERVAL)
 
-def remove_html_tags(text: str) -> str:
-  return re.sub(r"<.*?>", "", text)

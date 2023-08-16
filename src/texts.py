@@ -1,6 +1,7 @@
 from setup import *
 import openai.error
 import openai
+import re
 
 MAX_CONTENT_LEN = 500
 MODEL = "pai-001-light-beta"
@@ -24,9 +25,14 @@ back_button_content = "Back 🔙"
 previous_button_content = "Previous ⏮️"
 next_button_content = "Next ⏭️"
 
+def remove_html_tags(text: str) -> str:
+  return re.sub(r"<.*?>", "", text)
+
 def create_entry_content(entry) -> str:
   if "summary" not in entry:
     return ""
+
+  content = remove_html_tags(entry.summary)
 
   result = completion.create(model=MODEL, messages=[
     {
@@ -35,10 +41,12 @@ def create_entry_content(entry) -> str:
     },
     {
       "role": "user",
-      "content": entry.summary
+      "content": content
     }
   ])
 
-  post = f"{entry.summary}\n\n{result.choices[0]['message']['content']}" if len(entry.summary) <= MAX_CONTENT_LEN else result.choices[0]['message']['content']
+  response = result.choices[0]["message"]["content"]
+
+  post = f"{content}\n{response}\n" if len(content) <= MAX_CONTENT_LEN else response
 
   return post
