@@ -26,7 +26,11 @@ def notify():
           if session.query(Post).filter(Post.link == entry.link).first() is not None:
             continue
           
-          content = create_entry_content(entry)
+          try:
+            content = create_entry_content(entry)
+          except openai.error.RateLimitError:
+            continue
+
           post = Post(link = entry.link, title = entry.title, content = content)
 
           session.add(post)
@@ -45,11 +49,14 @@ def notify():
           except AttributeError:
             pass
 
-          message = post.create_message()
-
+          message = remove_html_tags(post.create_message())
+          
           if photo_url is not None:
             bot.send_photo(channel, photo_url, message, parse_mode="Markdown")
           else:
             bot.send_message(channel, message, parse_mode="Markdown")
 
     time.sleep(INTERVAL)
+
+def remove_html_tags(text: str) -> str:
+  return re.sub(r"<.*?>", "", text)
