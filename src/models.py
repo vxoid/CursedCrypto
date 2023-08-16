@@ -69,7 +69,7 @@ class Feed(Base):
     entries = f" ({len(feed.entries)})" if len(feed.entries) > 0 else ""
     message = f"RSS Feed - {self.url}{entries}\n"
     if str(self.latest_published) != DEFAULT_STR:
-      message += f"Last post at {self }"
+      message += f"Last post at {self.latest_published}"
 
     return message
   

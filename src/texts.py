@@ -1,3 +1,5 @@
+from setup import *
+
 start_message = "Hi there!"
 add_feed_message = "Please enter rss feed url to add."
 feeds_message = "Here is all feeds!"
@@ -13,7 +15,7 @@ previous_button_content = "Previous ⏮️"
 next_button_content = "Next ⏭️"
 
 def create_entry_content(entry) -> str:
-  try:
-    return entry.summary
-  except AttributeError:
+  if "summary" not in entry:
     return ""
+
+  return entry.summary

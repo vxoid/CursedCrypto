@@ -26,8 +26,9 @@ def notify():
           if session.query(Post).filter(Post.link == entry.link).first() is not None:
             continue
           
-          post = Post(link = entry.link, title = entry.title, content = create_entry_content(entry))
-         
+          content = create_entry_content(entry)
+          post = Post(link = entry.link, title = entry.title, content = content)
+
           session.add(post)
           session.commit()
 
