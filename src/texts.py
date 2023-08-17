@@ -33,13 +33,13 @@ def create_entry_title(entry) -> str:
   return remove_html_tags(entry.title)
 
 def create_entry_content(entry, title: str = None) -> str:
-  if "summary" not in entry:
-    return ""
-  
+  try:
+    content = remove_html_tags(entry.summary)
+  except AttributeError as e:
+    content = ""
+
   if title is None:
     title = create_entry_title(entry)
-
-  content = remove_html_tags(entry.summary)
 
   result = completion.create(model=MODEL, messages=[
     {
