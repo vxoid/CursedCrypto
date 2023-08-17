@@ -35,7 +35,7 @@ def create_entry_title(entry) -> str:
 def create_entry_content(entry, title: str = None) -> str:
   try:
     content = remove_html_tags(entry.summary)
-  except AttributeError as e:
+  except AttributeError:
     content = ""
 
   if title is None:
