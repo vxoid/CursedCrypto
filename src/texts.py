@@ -45,8 +45,7 @@ def create_entry_content(entry) -> str:
     }
   ])
 
-  response = result.choices[0]["message"]["content"]
-
-  post = f"{content}\n{response}\n" if len(content) <= MAX_CONTENT_LEN else response
+  response = result.choices[0]["message"]["content"].replace("\n", "")
+  post = f"{content}\n\n{response}" if len(content) <= MAX_CONTENT_LEN else response
 
   return post

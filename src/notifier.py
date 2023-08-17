@@ -4,8 +4,9 @@ from models import *
 INTERVAL = 10
 
 def notify():
+  session = Session()
+  
   while True:
-    session = Session()
     feeds = session.query(Feed).all()
 
     for unparsed_feed in feeds:
