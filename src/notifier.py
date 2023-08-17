@@ -27,12 +27,13 @@ def notify():
           if session.query(Post).filter(Post.link == entry.link).first() is not None:
             continue
           
+          title = create_entry_title(entry)
           try:
-            content = create_entry_content(entry)
+            content = create_entry_content(entry, title)
           except openai.error.RateLimitError:
             continue
 
-          post = Post(link = entry.link, title = entry.title, content = content)
+          post = Post(link = entry.link, title = title, content = content)
 
           session.add(post)
           session.commit()

@@ -29,9 +29,15 @@ next_button_content = "Next ⏭️"
 def remove_html_tags(text: str) -> str:
   return html.unescape(re.sub(r"<.*?>", "", text))
 
-def create_entry_content(entry) -> str:
+def create_entry_title(entry) -> str:
+  return remove_html_tags(entry.title)
+
+def create_entry_content(entry, title: str = None) -> str:
   if "summary" not in entry:
     return ""
+  
+  if title is None:
+    title = create_entry_title(entry)
 
   content = remove_html_tags(entry.summary)
 
@@ -42,11 +48,11 @@ def create_entry_content(entry) -> str:
     },
     {
       "role": "user",
-      "content": content
+      "content": content or title
     }
   ])
 
   response = result.choices[0]["message"]["content"].replace("\n", "")
-  post = f"{content}\n\n{response}" if len(content) <= MAX_CONTENT_LEN else response
+  post = f"{content}\n\n{response}" if 0 < len(content) <= MAX_CONTENT_LEN else response
 
   return post
