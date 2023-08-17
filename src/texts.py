@@ -1,6 +1,7 @@
 from setup import *
 import openai.error
 import openai
+import html
 import re
 
 MAX_CONTENT_LEN = 500
@@ -26,7 +27,7 @@ previous_button_content = "Previous ⏮️"
 next_button_content = "Next ⏭️"
 
 def remove_html_tags(text: str) -> str:
-  return re.sub(r"<.*?>", "", text)
+  return html.unescape(re.sub(r"<.*?>", "", text))
 
 def create_entry_content(entry) -> str:
   if "summary" not in entry:
